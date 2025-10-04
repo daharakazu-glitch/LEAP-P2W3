@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEAP 学習アプリ</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&family=Tinos:wght@700&display=swap');
+body {
+background-color: #007BFF; /* ビビットなブルー */
+font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* 英語フォントをTimes New Romanに設定 */
+.font-english {
+font-family: 'Tinos', 'Times New Roman', serif;
+font-weight: 700;
+font-size: 1.25rem; /* 20px */
+line-height: 1.75rem; /* 28px */
+}
+
+.answer-span {
+color: #DC2626; /* 赤色 */
+font-weight: 700;
+display: none;
+}
+
+.underline-span {
+text-decoration: underline;
+text-underline-offset: 4px;
+display: inline;
+}
+
+.show-answer .answer-span {
+display: inline;
+}
+
+.show-answer .underline-span {
+display: none;
+}
+.explanation {
+display: none;
+white-space: pre-wrap;
+}
+</style>
+</head>
+<body class="text-gray-800">
+
+<div id="app-container" class="container mx-auto p-4 md:p-8 max-w-4xl">
+<header class="text-center mb-8 bg-blue-500 p-4 rounded-xl shadow-lg">
+<h1 class="text-2xl md:text-3xl font-bold text-white">LEAP 学習アプリ</h1>
+<h2 id="app-subtitle" class="text-xl md:text-2xl font-bold text-white">Part 2 Week 3（No.491-537）</h2>
+</header>
+
+<main class="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg mb-28">
+<div class="text-right mb-6">
+<button id="start-quiz-btn" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg shadow transition-transform transform hover:scale-105">
+ランダムテスト
+</button>
+</div>
+
+<div id="sentence-list" class="space-y-6">
+<!-- Sentences will be populated by JS -->
+</div>
+</main>
+</div>
+
+<!-- Control Panel -->
+<div id="control-panel" class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-md p-4 border-t-2 border-gray-200 shadow-2xl flex justify-center items-center space-x-2 md:space-x-4">
+<button id="toggle-answer-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">表示/非表示</button>
+<button id="play-sound-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">音声再生</button>
+<button id="record-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">録音評価</button>
+<button id="toggle-explanation-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-transform transform hover:scale-105">語の意味</button>
+</div>
+
+<!-- Message/Score Modal -->
+<div id="message-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+<div id="message-content" class="bg-white p-8 rounded-lg shadow-xl text-center">
+<!-- Message content will be populated by JS -->
+</div>
+</div>
+<!-- Quiz Modal -->
+<div id="quiz-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-40 p-4">
+<div class="bg-white w-full max-w-2xl p-8 rounded-2xl shadow-2xl relative">
+<button id="close-quiz-btn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold">&times;</button>
+<div id="quiz-content">
+<!-- Quiz content will be populated by JS -->
+</div>
+</div>
+</div>
+
+<script>
+const chapterData = [
+    { id: "491-1", answer: "official", explanation: "[名] ①役人，職員\n[形] ②公式の", en: "an immigration official", ja: "入国管理官" },
+    { id: "491-2", answer: "official", explanation: "[名] ①役人，職員\n[形] ②公式の", en: "an official announcement", ja: "公式発表" },
+    { id: "492-1", answer: "immigrant", explanation: "[名] （外国からの）移民", en: "immigrants from India", ja: "インドからの移民" },
+    { id: "493-1", answer: "volunteer", explanation: "[名] ①ボランティア\n[自] ②ボランティア活動をする", en: "join in volunteer activities", ja: "ボランティア活動に参加する" },
+    { id: "493-2", answer: "volunteer", explanation: "[名] ①ボランティア\n[自] ②ボランティア活動をする", en: "volunteer to do the dishes", ja: "皿洗いを自ら進んでする" },
+    { id: "501-1", answer: "contribute", explanation: "[自] （to A）①Aに貢献する，寄付する", en: "contribute to world peace", ja: "世界平和に貢献する" },
+    { id: "502-1", answer: "contribute", explanation: "[他] ①A（金・力など）をB（目的）に捧げる", en: "contribute a great deal of money to the church", ja: "教会に多額のお金を寄付する" },
+    { id: "503-1", answer: "abolish", explanation: "[他] ～を廃止する", en: "abolish the death penalty", ja: "死刑制度を廃止する" },
+    { id: "504-1", answer: "impose", explanation: "[他] （A on B）AをBに課す", en: "The government will impose a total ban on cigarette advertising.", ja: "政府はタバコの広告を全面禁止にする（課す）だろう。" },
+    { id: "505-1", answer: "access", explanation: "[名] ①利用する権利\n[他] ②～にアクセスする", en: "have free access to the restroom", ja: "トイレを自由に利用できる（利用する権利を持つ）" },
+    { id: "505-2", answer: "access", explanation: "[名] ①利用する権利\n[他] ②～にアクセスする", en: "access the data", ja: "データにアクセスする" },
+    { id: "506-1", answer: "duty", explanation: "[名] 義務", en: "fulfill my duty", ja: "義務を果たす" },
+    { id: "507-1", answer: "duty", explanation: "[名] 関税", en: "a 6 percent duty on imports", ja: "輸入品に対する6パーセントの関税" },
+    { id: "508-1", answer: "responsible", explanation: "[形] （for A）Aに対して責任がある", en: "A teacher is responsible for what happens at school.", ja: "先生には学校で起きることに対して責任がある。" },
+    { id: "508-2", answer: "responsible", explanation: "[形] （for A）Aに対して責任がある", en: "The driver's careless mistake was responsible for over 100 deaths.", ja: "その運転手の不注意なミスが100人以上の人の死の原因となった。" },
+    { id: "509-1", answer: "policy", explanation: "[名] 政策，方針", en: "China's one-child policy", ja: "中国の一人っ子政策" },
+    { id: "510-1", answer: "policy", explanation: "[名] 信条", en: "It is my policy not to worry about things others.", ja: "他人のことは気にしないというのが私のポリシー（方針）だ。" },
+    { id: "511-1", answer: "policy", explanation: "[名] 保険証券", en: "have a travel insurance policy", ja: "海外旅行保険証券に入っている" },
+    { id: "512-1", answer: "elect", explanation: "[他] ～を（選挙で）選ぶ", en: "elect a representative", ja: "代表を一人選挙で選ばれた。" },
+    { id: "513-1", answer: "industry", explanation: "[名] ①工業，産業", en: "the computer industry", ja: "コンピュータ産業" },
+    { id: "513-2", answer: "industry", explanation: "[名] ②勤勉", en: "He achieved success through industry.", ja: "彼は勤勉によって成功した。" },
+    { id: "513-3", answer: "industry", explanation: "[名] ③（the~）～業界", en: "Industry is the mother of success.", ja: "勤勉は成功の母だ。" },
+    { id: "514-1", answer: "profit", explanation: "[名] 利益", en: "make a huge profit", ja: "莫大な利益" },
+    { id: "515-1", answer: "profit", explanation: "[名] 利益", en: "The restaurant's daily profit is about $1,000.", ja: "そのレストランの1日の利益はおよそ1,000ドルだ。" },
+    { id: "516-1", answer: "expense", explanation: "[名] 費用", en: "at my own expense", ja: "自分自身の費用で" },
+    { id: "516-2", answer: "expense", explanation: "[名] 費用", en: "This money will cover all your expenses.", ja: "このお金があなたのすべての費用をまかなうだろう。" },
+    { id: "516-3", answer: "expense", explanation: "[名] 犠牲", en: "win the title at the expense of his health", ja: "健康を犠牲にして優勝する" },
+    { id: "517-1", answer: "debt", explanation: "[名] 借金", en: "pay back a debt of 100 dollars", ja: "100ドルの借金を返す" },
+    { id: "517-2", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "have a large deposit in the bank", ja: "銀行に多額の預金がある" },
+    { id: "517-3", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "pay a deposit on a house", ja: "家の手付金を払う" },
+    { id: "517-4", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "deposit my salary", ja: "給料を口座に預ける" },
+    { id: "517-5", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "deposit ¥10,000 in a bank", ja: "銀行口座に10,000円を預金する" },
+    { id: "518-1", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "Admission is ¥500, free of charge.", ja: "入場料は500円、幼児は無料だ。" },
+    { id: "518-2", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "Who is in charge of this shop?", ja: "この店の責任者はどなたですか" },
+    { id: "518-3", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "take charge of my new class", ja: "新しいクラスの担任になる" },
+    { id: "518-4", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "charge 5,000 yen for a half-hour class", ja: "30分の授業で5,000円を請求する" },
+    { id: "518-5", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "He was charged with bribery.", ja: "彼は贈賄罪で告発された。" },
+    { id: "518-6", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "charge my smartphone", ja: "スマートフォンを充電する" },
+    { id: "519-1", answer: "wage", explanation: "[名] 賃金", en: "the minimum wage", ja: "最低賃金" },
+    { id: "519-2", answer: "wage", explanation: "[名] 賃金", en: "wage a campaign", ja: "キャンペーンを行う" },
+    { id: "520-1", answer: "recession", explanation: "[名] 不況，景気後退", en: "lay off workers because of the continuing recession", ja: "長引く不況のため従業員を解雇する" },
+    { id: "521-1", answer: "consume", explanation: "[他] ～を消費する", en: "consume a large amount of electricity", ja: "大量の電気を消費する" },
+    { id: "522-1", answer: "waste", explanation: "[他] ①～を浪費する\n[名] ②浪費，廃棄物", en: "Don't waste your time playing video games.", ja: "テレビゲームなどしてあなたの時間を浪費してはいけません。" },
+    { id: "522-2", answer: "waste", explanation: "[他] ①～を浪費する\n[名] ②浪費，廃棄物", en: "It is a waste of time and money.", ja: "そんなの時間とお金の無駄だ。" },
+    { id: "522-3", answer: "waste", explanation: "[他] ①～を浪費する\n[名] ②浪費，廃棄物", en: "industrial waste", ja: "産業廃棄物" },
+    { id: "523-1", answer: "invest", explanation: "[他] （A in B）A（金）をBに投資する", en: "invest one million yen in stocks", ja: "株に100万円を投資する" },
+    { id: "524-1", answer: "import", explanation: "[他] ①～を輸入する\n[名] ②輸入品", en: "Most of Japan's oil is imported from the Middle East.", ja: "日本の石油のほとんどは中東から輸入されている。" },
+    { id: "524-2", answer: "import", explanation: "[他] ①～を輸入する\n[名] ②輸入品", en: "import beef from the U.S.", ja: "アメリカから牛肉を輸入する" },
+    { id: "525-1", answer: "export", explanation: "[他] ①～を輸出する\n[名] ②輸出品", en: "We export cars and electronic parts.", ja: "車と電子部品を輸出している。" },
+    { id: "526-1", answer: "financial", explanation: "[形] 財政的な", en: "receive financial support", ja: "財政的支援を受ける" },
+    { id: "526-2", answer: "hire", explanation: "[他] ①～を雇う", en: "I was hired to do all the work.", ja: "すべての仕事をこなすために雇われた" },
+    { id: "526-3", answer: "hire", explanation: "[他] ②（有料で）～を借りる", en: "hire a car", ja: "車を借りる" },
+    { id: "527-1", answer: "employ", explanation: "[他] ①～を雇う", en: "employ new staff", ja: "新しい従業員を雇う" },
+    { id: "527-2", answer: "employ", explanation: "[他] ②（方法・言葉など）を用いる", en: "employ new technology", ja: "新しい技術を用いる" },
+    { id: "528-1", answer: "resign", explanation: "[自] ①（as A）Aを辞職する", en: "resign as captain", ja: "キャプテンを辞任する" },
+    { id: "528-2", answer: "resign", explanation: "[自] ②（A to B）AをBに（仕方なく）任せる", en: "resign my post", ja: "ポストを辞する" },
+    { id: "529-1", answer: "qualify", explanation: "[自] （for A）Aの資格がある", en: "qualify for the student loan", ja: "奨学金を受け取る資格がある" },
+    { id: "529-2", answer: "qualify", explanation: "[自] ②（as A）Aとしての資格を得る", en: "qualify as a teacher", ja: "教師としての資格を得る" },
+    { id: "530-1", answer: "assign", explanation: "[他] ①～を割り当てる", en: "assign them a challenging game", ja: "チームにやりがいのある試合（への挑戦）を与える（試合）" },
+    { id: "530-2", answer: "assign", explanation: "[他] ②～を配属する", en: "assign that important job to him", ja: "彼にその大切な仕事を割り当てる" },
+    { id: "531-1", answer: "occupation", explanation: "[名] 職業", en: "state your name, address and occupation", ja: "氏名、住所、職業" },
+    { id: "531-2", answer: "occupation", explanation: "[名] 職業", en: "What's your occupation?", ja: "ご職業は何ですか" },
+    { id: "532-1", answer: "career", explanation: "[名] ①職業 ②経歴", en: "start a career as a doctor", ja: "医者として働き始める（職業を始める）" },
+    { id: "533-1", answer: "career", explanation: "[名] ①職業 ②経歴", en: "She has had a successful career as a teacher.", ja: "彼女は教師として成功を収めている（良い経歴）" },
+    { id: "534-1", answer: "profession", explanation: "[名] （専門的な）職業", en: "enter the legal profession", ja: "法律関係の仕事に就く" },
+    { id: "534-2", answer: "profession", explanation: "[名] （the -）同業者仲間", en: "by profession", ja: "職業は" },
+    { id: "534-3", answer: "unemployment", explanation: "[名] 失業", en: "face an unemployment problem", ja: "失業問題" },
+    { id: "535-1", answer: "document", explanation: "[名] ①書類，資料", en: "read all the relevant documents", ja: "関連資料すべてに目を通す" },
+    { id: "535-2", answer: "document", explanation: "[他] ②～を記録する", en: "look over the documents", ja: "資料に目を通す" },
+    { id: "536-1", answer: "department", explanation: "[名] ①（組織の）部門，課", en: "The report documented what had happened.", ja: "その報告書は、何が起こったのか（どのように起きたか）を記録する" },
+    { id: "536-2", answer: "department", explanation: "[名] ②（大学の）学部", en: "the toy department", ja: "おもちゃ売り場" },
+    { id: "536-3", answer: "department", explanation: "[名] ③（米国の）省", en: "the sales department", ja: "営業部" },
+    { id: "536-4", answer: "department", explanation: "[名] ③（米国の）省", en: "the U.S. State Department", ja: "米国務省" },
+    { id: "537-1", answer: "branch", explanation: "[名] 支店，支局", en: "open a new branch", ja: "新しい支店を開く" },
+    { id: "537-2", answer: "branch", explanation: "[名] 支店，支局", en: "take a branch of biology", ja: "生物学の一分野" },
+    { id: "537-3", answer: "branch", explanation: "[名] 枝", en: "cut off the dead branches of the trees", ja: "木の枯れ枝を切りはなす" }
+];
+
+// --- App State ---
+let activeSentenceElement = null;
+
+// --- DOM Elements ---
+const sentenceList = document.getElementById('sentence-list');
+const appSubtitle = document.getElementById('app-subtitle');
+const toggleAnswerBtn = document.getElementById('toggle-answer-btn');
+const playSoundBtn = document.getElementById('play-sound-btn');
+const recordBtn = document.getElementById('record-btn');
+const toggleExplanationBtn = document.getElementById('toggle-explanation-btn');
+const startQuizBtn = document.getElementById('start-quiz-btn');
+const messageModal = document.getElementById('message-modal');
+const messageContent = document.getElementById('message-content');
+const quizModal = document.getElementById('quiz-modal');
+const closeQuizBtn = document.getElementById('close-quiz-btn');
+const quizContent = document.getElementById('quiz-content');
+
+// --- Functions ---
+
+/**
+* Finds the specific form of an answer word within a sentence.
+* @param {string} enSentence - The English example sentence.
+* @param {string} answer - The base form of the word.
+* @returns {string|null} - The found word form or null if not found.
+*/
+function findAnswerFormInSentence(enSentence, answer) {
+    const originalWords = enSentence.split(' ');
+    const words = enSentence.toLowerCase().split(/[\s,.]+/);
+    const answerLower = answer.toLowerCase();
+
+    for (let i = 0; i < words.length; i++) {
+        const cleanWord = words[i].replace(/[.,!?]$/, '');
+        const originalWord = originalWords.find(ow => ow.toLowerCase().includes(cleanWord));
+        
+        if (!originalWord) continue;
+
+        if (
+            cleanWord === answerLower ||
+            cleanWord === answerLower + 's' ||
+            cleanWord === answerLower + 'es' ||
+            (answerLower.endsWith('y') && !['a','e','i','o','u'].includes(answerLower.slice(-2,-1)) && cleanWord === answerLower.slice(0, -1) + 'ies') ||
+            (answerLower.endsWith('e') && cleanWord === answerLower.slice(0, -1) + 'ing') ||
+            (!answerLower.endsWith('e') && cleanWord === answerLower + 'ing') ||
+            cleanWord === answerLower + 'ed' ||
+            cleanWord.startsWith(answerLower)
+        ) {
+            return originalWord.replace(/[.,!?]$/, '');
+        }
+    }
+    return answer; // Fallback to base form if not found
+}
+
+
+/**
+* Creates the HTML for a sentence, wrapping the answer word in spans.
+* @param {string} enSentence - The English example sentence from the data.
+* @param {string} answer - The base form of the word to be hidden.
+* @returns {string} - The HTML string for the English sentence.
+*/
+function formatEnglishSentence(enSentence, answer) {
+    const blank = '__________';
+    const actualWord = findAnswerFormInSentence(enSentence, answer);
+
+    if (actualWord && enSentence.includes(actualWord)) {
+        const answerHtml = `<span class="answer-span">${actualWord}</span>`;
+        const underlineHtml = `<span class="underline-span">${blank}</span>`;
+        // Replace only the first occurrence to avoid issues with repeated words.
+        return enSentence.replace(actualWord, `${answerHtml}${underlineHtml}`);
+    }
+    // If word is not found, just return sentence (should not happen with good data)
+    return enSentence.replace(answer, `<span class="answer-span">${answer}</span><span class="underline-span">${blank}</span>`);
+}
+
+
+/**
+* Renders all sentences for the chapter.
+*/
+function renderChapter() {
+    sentenceList.innerHTML = ''; // Clear existing list
+    if (chapterData.length === 0) {
+        sentenceList.innerHTML = '<p class="text-center text-gray-500">データがありません。用例を追加してください。</p>';
+        return;
+    }
+
+    chapterData.forEach(item => {
+        const sentenceDiv = document.createElement('div');
+        sentenceDiv.className = 'sentence-item p-4 border border-gray-200 rounded-lg bg-white transition-shadow duration-300 hover:shadow-md';
+        sentenceDiv.dataset.id = item.id;
+        sentenceDiv.dataset.fullSentence = item.en;
+
+        const englishSentenceHtml = formatEnglishSentence(item.en, item.answer);
+
+        sentenceDiv.innerHTML = `
+        <div class="flex items-start space-x-4">
+        <span class="text-lg font-bold text-gray-500">${item.id}</span>
+        <div class="flex-1">
+        <p class="mb-2 text-gray-700">${item.ja}</p>
+        <p class="font-english">${englishSentenceHtml}</p>
+        <div class="explanation mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-400 text-gray-700 rounded-r-lg">
+        ${item.explanation}
+        </div>
+        </div>
+        </div>
+        `;
+        sentenceList.appendChild(sentenceDiv);
+    });
+    
+    document.querySelectorAll('.sentence-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.explanation')) return;
+
+            if (activeSentenceElement) {
+                activeSentenceElement.classList.remove('ring-2', 'ring-blue-400', 'shadow-xl');
+            }
+            activeSentenceElement = item;
+            activeSentenceElement.classList.add('ring-2', 'ring-blue-400', 'shadow-xl');
+        });
+    });
+    
+    if (sentenceList.firstChild && sentenceList.firstChild.click) {
+        sentenceList.firstChild.click();
+    }
+}
+/**
+* Shows a message in a modal.
+* @param {string} htmlContent - The HTML content for the message.
+* @param {number} duration - Optional duration in ms to auto-hide.
+*/
+function showMessage(htmlContent, duration = null) {
+    messageContent.innerHTML = htmlContent;
+    messageModal.classList.remove('hidden');
+    if (duration) {
+        setTimeout(() => {
+            if (!messageModal.classList.contains('hidden')) {
+                 messageModal.classList.add('hidden');
+            }
+        }, duration);
+    }
+}
+
+
+/**
+* Plays the audio for the currently selected sentence.
+*/
+function playSound() {
+    if (!activeSentenceElement) {
+        showMessage('<p>文を選択してください。</p>', 2000);
+        return;
+    }
+    speechSynthesis.cancel();
+    const textToSpeak = activeSentenceElement.dataset.fullSentence;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.lang = 'en-US';
+    speechSynthesis.speak(utterance);
+}
+
+
+/**
+* Handles the recording and evaluation process.
+*/
+function handleRecording() {
+    if (!activeSentenceElement) {
+        showMessage('<p>文を選択してください。</p>', 2000);
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+        showMessage('<p>お使いのブラウザは音声認識に対応していません。</p>', 3000);
+        return;
+    }
+
+    try {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+
+        recognition.onstart = () => {
+             showMessage('<p class="text-2xl">マイクに向かって話してください...</p><div class="animate-pulse text-red-500 text-4xl mt-4">●</div>');
+        };
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            evaluatePronunciation(transcript);
+        };
+
+        recognition.onerror = (event) => {
+            let errorMessage = 'エラーが発生しました';
+            if (event.error === 'no-speech') {
+                errorMessage = '音声が認識されませんでした。もう一度お試しください。';
+            } else if (event.error === 'not-allowed' || event.error === 'service-not-allowed') {
+                errorMessage = 'マイクの使用が許可されていません。ブラウザのアドレスバーの横にあるアイコンからマイクを許可してください。';
+            } else if (event.error === 'audio-capture') {
+                errorMessage = 'マイクに問題が発生しました。他のアプリで使用中でないか確認してください。';
+            }
+            showMessage(`<p>${errorMessage}</p>`, 5000);
+        };
+        
+        recognition.onend = () => {
+            if (!messageModal.classList.contains('hidden') && messageContent.innerHTML.includes('マイクに')) {
+                 messageModal.classList.add('hidden');
+            }
+        };
+
+        recognition.start();
+    } catch (e) {
+        showMessage('<p>音声認識の開始中に予期せぬエラーが発生しました。</p>', 3000);
+        console.error("Speech Recognition Error:", e);
+    }
+}
+/**
+* Evaluates the pronunciation by comparing the transcript to the original sentence.
+*/
+function evaluatePronunciation(transcript) {
+    const originalText = activeSentenceElement.dataset.fullSentence;
+
+    const cleanOrig = originalText.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(Boolean);
+    const cleanTrans = transcript.toLowerCase().replace(/[^\w\s]/g, '').split(' ').filter(Boolean);
+    
+    let matches = 0;
+    const transWords = new Set(cleanTrans);
+    
+    cleanOrig.forEach(word => {
+        if (transWords.has(word)) {
+            matches++;
+        }
+    });
+
+    const similarity = cleanOrig.length > 0 ? matches / cleanOrig.length : 0;
+    
+    let score;
+    if (similarity >= 0.9) {
+        score = 95 + Math.floor(Math.random() * 5); 
+    } else if (similarity >= 0.7) {
+        score = 90 + Math.floor(Math.random() * 5);
+    } else if (similarity >= 0.5) {
+        score = 85 + Math.floor(Math.random() * 5);
+    } else if (similarity >= 0.3) {
+        score = 80 + Math.floor(Math.random() * 5);
+    } else {
+        score = 70 + Math.floor(Math.random() * 10);
+    }
+    
+    if (score >= 99 && cleanOrig.join(' ') !== cleanTrans.join(' ')) {
+        score = 98;
+    }
+
+    const messageHtml = `
+    <h3 class="text-2xl font-bold mb-4">評価結果</h3>
+    <p class="text-7xl font-bold text-blue-600 mb-4">${score}<span class="text-2xl">点</span></p>
+    <p class="text-gray-600 mb-2"><strong>あなたの発音:</strong> ${transcript}</p>
+    <p class="text-gray-600"><strong>元の文:</strong> ${originalText}</p>
+    <button onclick="document.getElementById('message-modal').classList.add('hidden')" class="mt-6 bg-blue-500 text-white py-2 px-6 rounded-lg">閉じる</button>
+    `;
+    showMessage(messageHtml);
+}
+
+
+/**
+* Starts the quiz.
+*/
+function startQuiz() {
+    if (chapterData.length < 10) {
+        showMessage('<p>クイズを作成するには、データが10個以上必要です。</p>', 3000);
+        return;
+    }
+
+    const uniqueAnswers = [...new Map(chapterData.map(item => [item.answer, item])).values()];
+    const shuffled = uniqueAnswers.sort(() => 0.5 - Math.random());
+    const questions = shuffled.slice(0, 10);
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+
+    function showQuestion() {
+        if (currentQuestionIndex >= questions.length) {
+            showQuizResult();
+            return;
+        }
+
+        const question = questions[currentQuestionIndex];
+        const baseAnswer = question.answer;
+
+        const correctOptionText = findAnswerFormInSentence(question.en, baseAnswer) || baseAnswer;
+        
+        let questionSentence = question.en;
+        if (correctOptionText) {
+            questionSentence = question.en.replace(correctOptionText, '(______)');
+        }
+
+        const incorrectAnswers = [...new Set(chapterData.map(item => item.answer))]
+            .filter(answer => answer !== baseAnswer)
+            .sort(() => 0.5 - Math.random())
+            .slice(0, 3);
+
+        const options = [correctOptionText, ...incorrectAnswers].sort(() => 0.5 - Math.random());
+
+        quizContent.innerHTML = `
+        <h3 class="text-2xl font-bold mb-2">問題 ${currentQuestionIndex + 1}/10</h3>
+        <p class="text-lg mb-4">${question.ja}</p>
+        <p class="font-english text-xl mb-6 p-4 bg-gray-100 rounded-lg">${questionSentence}</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        ${options.map(opt => `<button class="quiz-option p-4 bg-blue-100 hover:bg-blue-200 rounded-lg text-left text-lg font-english" data-option-text="${opt}">${opt}</button>`).join('')}
+        </div>
+        `;
+
+        document.querySelectorAll('.quiz-option').forEach(button => {
+            button.addEventListener('click', () => {
+                const selectedOptionText = button.dataset.optionText;
+                
+                if (selectedOptionText === correctOptionText) {
+                    score++;
+                    button.classList.add('bg-green-400', 'text-white');
+                } else {
+                    button.classList.add('bg-red-400', 'text-white');
+                    const correctButton = document.querySelector(`[data-option-text="${CSS.escape(correctOptionText)}"]`);
+                    if (correctButton) {
+                        correctButton.classList.add('bg-green-400', 'text-white');
+                    }
+                }
+                document.querySelectorAll('.quiz-option').forEach(btn => btn.disabled = true);
+
+                setTimeout(() => {
+                    currentQuestionIndex++;
+                    showQuestion();
+                }, 1200);
+            });
+        });
+    }
+
+    function showQuizResult() {
+        quizContent.innerHTML = `
+        <h3 class="text-3xl font-bold mb-4 text-center">テスト終了！</h3>
+        <p class="text-center text-xl mb-6">あなたのスコアは...</p>
+        <p class="text-center text-7xl font-bold text-purple-600">${score * 10}<span class="text-3xl">点</span></p>
+        <p class="text-center text-xl mt-2">(${questions.length}問中 ${score}問正解)</p>
+        `;
+    }
+
+    showQuestion();
+    quizModal.classList.remove('hidden');
+}
+
+
+// --- Event Listeners ---
+
+toggleAnswerBtn.addEventListener('click', () => {
+    if (!activeSentenceElement) {
+        showMessage('<p>文を選択してください。</p>', 2000);
+        return;
+    }
+    activeSentenceElement.classList.toggle('show-answer');
+});
+
+toggleExplanationBtn.addEventListener('click', () => {
+    if (!activeSentenceElement) {
+        showMessage('<p>文を選択してください。</p>', 2000);
+        return;
+    }
+    const explanationDiv = activeSentenceElement.querySelector('.explanation');
+    if (explanationDiv.style.display === 'block') {
+        explanationDiv.style.display = 'none';
+    } else {
+        explanationDiv.style.display = 'block';
+    }
+});
+playSoundBtn.addEventListener('click', playSound);
+recordBtn.addEventListener('click', handleRecording);
+startQuizBtn.addEventListener('click', startQuiz);
+closeQuizBtn.addEventListener('click', () => quizModal.classList.add('hidden'));
+
+// --- Initial Load ---
+document.addEventListener('DOMContentLoaded', () => {
+    renderChapter();
+});
+</script>
+</body>
+</html>
+
