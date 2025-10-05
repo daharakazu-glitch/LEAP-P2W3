@@ -92,82 +92,103 @@ white-space: pre-wrap;
 
 <script>
 const chapterData = [
-    { id: "491-1", answer: "official", explanation: "[名] ①役人，職員\n[形] ②公式の", en: "an immigration official", ja: "入国管理官" },
-    { id: "491-2", answer: "official", explanation: "[名] ①役人，職員\n[形] ②公式の", en: "an official announcement", ja: "公式発表" },
-    { id: "492-1", answer: "immigrant", explanation: "[名] （外国からの）移民", en: "immigrants from India", ja: "インドからの移民" },
-    { id: "493-1", answer: "volunteer", explanation: "[名] ①ボランティア\n[自] ②ボランティア活動をする", en: "join in volunteer activities", ja: "ボランティア活動に参加する" },
-    { id: "493-2", answer: "volunteer", explanation: "[名] ①ボランティア\n[自] ②ボランティア活動をする", en: "volunteer to do the dishes", ja: "皿洗いを自ら進んでする" },
-    { id: "501-1", answer: "contribute", explanation: "[自] （to A）①Aに貢献する，寄付する", en: "contribute to world peace", ja: "世界平和に貢献する" },
-    { id: "502-1", answer: "contribute", explanation: "[他] ①A（金・力など）をB（目的）に捧げる", en: "contribute a great deal of money to the church", ja: "教会に多額のお金を寄付する" },
-    { id: "503-1", answer: "abolish", explanation: "[他] ～を廃止する", en: "abolish the death penalty", ja: "死刑制度を廃止する" },
-    { id: "504-1", answer: "impose", explanation: "[他] （A on B）AをBに課す", en: "The government will impose a total ban on cigarette advertising.", ja: "政府はタバコの広告を全面禁止にする（課す）だろう。" },
-    { id: "505-1", answer: "access", explanation: "[名] ①利用する権利\n[他] ②～にアクセスする", en: "have free access to the restroom", ja: "トイレを自由に利用できる（利用する権利を持つ）" },
-    { id: "505-2", answer: "access", explanation: "[名] ①利用する権利\n[他] ②～にアクセスする", en: "access the data", ja: "データにアクセスする" },
-    { id: "506-1", answer: "duty", explanation: "[名] 義務", en: "fulfill my duty", ja: "義務を果たす" },
-    { id: "507-1", answer: "duty", explanation: "[名] 関税", en: "a 6 percent duty on imports", ja: "輸入品に対する6パーセントの関税" },
-    { id: "508-1", answer: "responsible", explanation: "[形] （for A）Aに対して責任がある", en: "A teacher is responsible for what happens at school.", ja: "先生には学校で起きることに対して責任がある。" },
-    { id: "508-2", answer: "responsible", explanation: "[形] （for A）Aに対して責任がある", en: "The driver's careless mistake was responsible for over 100 deaths.", ja: "その運転手の不注意なミスが100人以上の人の死の原因となった。" },
-    { id: "509-1", answer: "policy", explanation: "[名] 政策，方針", en: "China's one-child policy", ja: "中国の一人っ子政策" },
-    { id: "510-1", answer: "policy", explanation: "[名] 信条", en: "It is my policy not to worry about things others.", ja: "他人のことは気にしないというのが私のポリシー（方針）だ。" },
-    { id: "511-1", answer: "policy", explanation: "[名] 保険証券", en: "have a travel insurance policy", ja: "海外旅行保険証券に入っている" },
-    { id: "512-1", answer: "elect", explanation: "[他] ～を（選挙で）選ぶ", en: "elect a representative", ja: "代表を一人選挙で選ばれた。" },
-    { id: "513-1", answer: "industry", explanation: "[名] ①工業，産業", en: "the computer industry", ja: "コンピュータ産業" },
-    { id: "513-2", answer: "industry", explanation: "[名] ②勤勉", en: "He achieved success through industry.", ja: "彼は勤勉によって成功した。" },
-    { id: "513-3", answer: "industry", explanation: "[名] ③（the~）～業界", en: "Industry is the mother of success.", ja: "勤勉は成功の母だ。" },
-    { id: "514-1", answer: "profit", explanation: "[名] 利益", en: "make a huge profit", ja: "莫大な利益" },
-    { id: "515-1", answer: "profit", explanation: "[名] 利益", en: "The restaurant's daily profit is about $1,000.", ja: "そのレストランの1日の利益はおよそ1,000ドルだ。" },
-    { id: "516-1", answer: "expense", explanation: "[名] 費用", en: "at my own expense", ja: "自分自身の費用で" },
-    { id: "516-2", answer: "expense", explanation: "[名] 費用", en: "This money will cover all your expenses.", ja: "このお金があなたのすべての費用をまかなうだろう。" },
-    { id: "516-3", answer: "expense", explanation: "[名] 犠牲", en: "win the title at the expense of his health", ja: "健康を犠牲にして優勝する" },
-    { id: "517-1", answer: "debt", explanation: "[名] 借金", en: "pay back a debt of 100 dollars", ja: "100ドルの借金を返す" },
-    { id: "517-2", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "have a large deposit in the bank", ja: "銀行に多額の預金がある" },
-    { id: "517-3", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "pay a deposit on a house", ja: "家の手付金を払う" },
-    { id: "517-4", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "deposit my salary", ja: "給料を口座に預ける" },
-    { id: "517-5", answer: "deposit", explanation: "[名] ①預金\n[他] ②～を預ける", en: "deposit ¥10,000 in a bank", ja: "銀行口座に10,000円を預金する" },
-    { id: "518-1", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "Admission is ¥500, free of charge.", ja: "入場料は500円、幼児は無料だ。" },
-    { id: "518-2", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "Who is in charge of this shop?", ja: "この店の責任者はどなたですか" },
-    { id: "518-3", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "take charge of my new class", ja: "新しいクラスの担任になる" },
-    { id: "518-4", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "charge 5,000 yen for a half-hour class", ja: "30分の授業で5,000円を請求する" },
-    { id: "518-5", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "He was charged with bribery.", ja: "彼は贈賄罪で告発された。" },
-    { id: "518-6", answer: "charge", explanation: "[名] ①料金\n[他] ②～を請求する", en: "charge my smartphone", ja: "スマートフォンを充電する" },
-    { id: "519-1", answer: "wage", explanation: "[名] 賃金", en: "the minimum wage", ja: "最低賃金" },
-    { id: "519-2", answer: "wage", explanation: "[名] 賃金", en: "wage a campaign", ja: "キャンペーンを行う" },
-    { id: "520-1", answer: "recession", explanation: "[名] 不況，景気後退", en: "lay off workers because of the continuing recession", ja: "長引く不況のため従業員を解雇する" },
-    { id: "521-1", answer: "consume", explanation: "[他] ～を消費する", en: "consume a large amount of electricity", ja: "大量の電気を消費する" },
-    { id: "522-1", answer: "waste", explanation: "[他] ①～を浪費する\n[名] ②浪費，廃棄物", en: "Don't waste your time playing video games.", ja: "テレビゲームなどしてあなたの時間を浪費してはいけません。" },
-    { id: "522-2", answer: "waste", explanation: "[他] ①～を浪費する\n[名] ②浪費，廃棄物", en: "It is a waste of time and money.", ja: "そんなの時間とお金の無駄だ。" },
-    { id: "522-3", answer: "waste", explanation: "[他] ①～を浪費する\n[名] ②浪費，廃棄物", en: "industrial waste", ja: "産業廃棄物" },
-    { id: "523-1", answer: "invest", explanation: "[他] （A in B）A（金）をBに投資する", en: "invest one million yen in stocks", ja: "株に100万円を投資する" },
-    { id: "524-1", answer: "import", explanation: "[他] ①～を輸入する\n[名] ②輸入品", en: "Most of Japan's oil is imported from the Middle East.", ja: "日本の石油のほとんどは中東から輸入されている。" },
-    { id: "524-2", answer: "import", explanation: "[他] ①～を輸入する\n[名] ②輸入品", en: "import beef from the U.S.", ja: "アメリカから牛肉を輸入する" },
-    { id: "525-1", answer: "export", explanation: "[他] ①～を輸出する\n[名] ②輸出品", en: "We export cars and electronic parts.", ja: "車と電子部品を輸出している。" },
-    { id: "526-1", answer: "financial", explanation: "[形] 財政的な", en: "receive financial support", ja: "財政的支援を受ける" },
-    { id: "526-2", answer: "hire", explanation: "[他] ①～を雇う", en: "I was hired to do all the work.", ja: "すべての仕事をこなすために雇われた" },
-    { id: "526-3", answer: "hire", explanation: "[他] ②（有料で）～を借りる", en: "hire a car", ja: "車を借りる" },
-    { id: "527-1", answer: "employ", explanation: "[他] ①～を雇う", en: "employ new staff", ja: "新しい従業員を雇う" },
-    { id: "527-2", answer: "employ", explanation: "[他] ②（方法・言葉など）を用いる", en: "employ new technology", ja: "新しい技術を用いる" },
-    { id: "528-1", answer: "resign", explanation: "[自] ①（as A）Aを辞職する", en: "resign as captain", ja: "キャプテンを辞任する" },
-    { id: "528-2", answer: "resign", explanation: "[自] ②（A to B）AをBに（仕方なく）任せる", en: "resign my post", ja: "ポストを辞する" },
-    { id: "529-1", answer: "qualify", explanation: "[自] （for A）Aの資格がある", en: "qualify for the student loan", ja: "奨学金を受け取る資格がある" },
-    { id: "529-2", answer: "qualify", explanation: "[自] ②（as A）Aとしての資格を得る", en: "qualify as a teacher", ja: "教師としての資格を得る" },
-    { id: "530-1", answer: "assign", explanation: "[他] ①～を割り当てる", en: "assign them a challenging game", ja: "チームにやりがいのある試合（への挑戦）を与える（試合）" },
-    { id: "530-2", answer: "assign", explanation: "[他] ②～を配属する", en: "assign that important job to him", ja: "彼にその大切な仕事を割り当てる" },
-    { id: "531-1", answer: "occupation", explanation: "[名] 職業", en: "state your name, address and occupation", ja: "氏名、住所、職業" },
-    { id: "531-2", answer: "occupation", explanation: "[名] 職業", en: "What's your occupation?", ja: "ご職業は何ですか" },
-    { id: "532-1", answer: "career", explanation: "[名] ①職業 ②経歴", en: "start a career as a doctor", ja: "医者として働き始める（職業を始める）" },
-    { id: "533-1", answer: "career", explanation: "[名] ①職業 ②経歴", en: "She has had a successful career as a teacher.", ja: "彼女は教師として成功を収めている（良い経歴）" },
-    { id: "534-1", answer: "profession", explanation: "[名] （専門的な）職業", en: "enter the legal profession", ja: "法律関係の仕事に就く" },
-    { id: "534-2", answer: "profession", explanation: "[名] （the -）同業者仲間", en: "by profession", ja: "職業は" },
-    { id: "534-3", answer: "unemployment", explanation: "[名] 失業", en: "face an unemployment problem", ja: "失業問題" },
-    { id: "535-1", answer: "document", explanation: "[名] ①書類，資料", en: "read all the relevant documents", ja: "関連資料すべてに目を通す" },
-    { id: "535-2", answer: "document", explanation: "[他] ②～を記録する", en: "look over the documents", ja: "資料に目を通す" },
-    { id: "536-1", answer: "department", explanation: "[名] ①（組織の）部門，課", en: "The report documented what had happened.", ja: "その報告書は、何が起こったのか（どのように起きたか）を記録する" },
-    { id: "536-2", answer: "department", explanation: "[名] ②（大学の）学部", en: "the toy department", ja: "おもちゃ売り場" },
-    { id: "536-3", answer: "department", explanation: "[名] ③（米国の）省", en: "the sales department", ja: "営業部" },
-    { id: "536-4", answer: "department", explanation: "[名] ③（米国の）省", en: "the U.S. State Department", ja: "米国務省" },
-    { id: "537-1", answer: "branch", explanation: "[名] 支店，支局", en: "open a new branch", ja: "新しい支店を開く" },
-    { id: "537-2", answer: "branch", explanation: "[名] 支店，支局", en: "take a branch of biology", ja: "生物学の一分野" },
-    { id: "537-3", answer: "branch", explanation: "[名] 枝", en: "cut off the dead branches of the trees", ja: "木の枯れ枝を切りはなす" }
+    { id: "491", answer: "crisis", explanation: "[名] 危機", en: "face a serious economic crisis", ja: "深刻な経済危機に直面する" },
+    { id: "492-1", answer: "prejudice", explanation: "[名] ①偏見，先入観　[他] ②～に偏見をもたせる", en: "end racial prejudice", ja: "人種的偏見を終わらせる" },
+    { id: "492-2", answer: "prejudice", explanation: "[名] ①偏見，先入観　[他] ②～に偏見をもたせる", en: "Don’t be prejudiced against Muslims.", ja: "イスラム教徒に対して偏見をもつな．" },
+    { id: "493-1", answer: "discrimination", explanation: "[名] ①差別　②識別（①②ともに〈不可算〉）", en: "fight racial discrimination", ja: "人種差別と戦う" },
+    { id: "493-2", answer: "discrimination", explanation: "[名] ①差別　②識別（①②ともに〈不可算〉）", en: "Discrimination between L sounds and R sounds is difficult.", ja: "LとRの音の識別は難しい．" },
+    { id: "494-1", answer: "charity", explanation: "[名] ①慈善（事業）〈不可算〉　②慈善団体〈可算〉　③（形容詞的に）慈善のための", en: "do a lot of work for charity", ja: "多くの慈善活動を行う" },
+    { id: "494-2", answer: "charity", explanation: "[名] ①慈善（事業）〈不可算〉　②慈善団体〈可算〉　③（形容詞的に）慈善のための", en: "give money to several （different） charities", ja: "いくつかの慈善団体に金を寄付する" },
+    { id: "494-3", answer: "charity", explanation: "[名] ①慈善（事業）〈不可算〉　②慈善団体〈可算〉　③（形容詞的に）慈善のための", en: "hold a charity concert", ja: "チャリティーコンサートを開く" },
+    { id: "495-1", answer: "benefit", explanation: "[名] ①恩恵　②（－s）手当　[自] ③（from ～）（～から）恩恵を得る　[他] ④～に恩恵を与える", en: "Tourism has brought great benefits to this village.", ja: "観光がこの村に多大な恩恵をもたらした．" },
+    { id: "495-2", answer: "benefit", explanation: "[名] ①恩恵　②（－s）手当　[自] ③（from ～）（～から）恩恵を得る　[他] ④～に恩恵を与える", en: "salary and other benefits", ja: "給与とほかの諸手当" },
+    { id: "495-3", answer: "benefit", explanation: "[名] ①恩恵　②（－s）手当　[自] ③（from ～）（～から）恩恵を得る　[他] ④～に恩恵を与える", en: "benefit from the new treatment", ja: "新しい治療法から恩恵を受ける" },
+    { id: "495-4", answer: "benefit", explanation: "[名] ①恩恵　②（－s）手当　[自] ③（from ～）（～から）恩恵を得る　[他] ④～に恩恵を与える", en: "The fresh air will benefit you.", ja: "新鮮な空気はあなたによいでしょう．" },
+    { id: "496-1", answer: "welfare", explanation: "[名] ①福祉　②（健康なども含めた）幸福　③生活保護（①②③いずれも〈不可算〉）", en: "work for social welfare", ja: "社会福祉のために働く" },
+    { id: "496-2", answer: "welfare", explanation: "[名] ①福祉　②（健康なども含めた）幸福　③生活保護（①②③いずれも〈不可算〉）", en: "Parents are always concerned about their children’s welfare.", ja: "親は常に子どもの幸福を気にかけている．" },
+    { id: "496-3", answer: "welfare", explanation: "[名] ①福祉　②（健康なども含めた）幸福　③生活保護（①②③いずれも〈不可算〉）", en: "welfare benefits", ja: "生活保護受給金" },
+    { id: "497", answer: "community", explanation: "[名] （地域）社会，共同体（の人々）〈可算〉", en: "the Polish community in the U.K.", ja: "イギリスのポーランド人社会" },
+    { id: "498-1", answer: "individual", explanation: "[名] ①個人，個体　[形] ②個人の，個々の", en: "each individual’s right to privacy", ja: "各個人のプライバシーの権利" },
+    { id: "498-2", answer: "individual", explanation: "[名] ①個人，個体　[形] ②個人の，個々の", en: "individual action （⇔ group action）", ja: "個人行動（⇔団体行動）" },
+    { id: "499-1", answer: "official", explanation: "[名] ①役人，役員　[形] ②公式の", en: "a government official", ja: "政府の役人" },
+    { id: "499-2", answer: "official", explanation: "[名] ①役人，役員　[形] ②公式の", en: "an official language", ja: "公用語（公式の言語）" },
+    { id: "500", answer: "immigrant", explanation: "[名] （外国からの）移民", en: "immigrants from India", ja: "インドからの移民" },
+    { id: "501-1", answer: "volunteer", explanation: "[名] ①ボランティア　[自] ②（to do）（～することを）自発的に申し出る", en: "take part in volunteer activities", ja: "ボランティア活動に参加する" },
+    { id: "501-2", answer: "volunteer", explanation: "[名] ①ボランティア　[自] ②（to do）（～することを）自発的に申し出る", en: "volunteer to do the dishes", ja: "皿洗いを自発的に申し出る" },
+    { id: "502", answer: "interact", explanation: "[自] （with ～）（～と）交流する，相互作用する", en: "interact well with other students", ja: "ほかの生徒とうまく付き合う" },
+    { id: "503-1", answer: "contribute", explanation: "[自] （to ～）①（～に）貢献する　②（～の）一因となる　[他] ③（A to B）（A）を（Bに）寄付する，提供する", en: "contribute to world peace", ja: "世界平和に貢献する" },
+    { id: "503-2", answer: "contribute", explanation: "[自] （to ～）①（～に）貢献する　②（～の）一因となる　[他] ③（A to B）（A）を（Bに）寄付する，提供する", en: "contribute to global warming", ja: "地球温暖化の一因である" },
+    { id: "503-3", answer: "contribute", explanation: "[自] （to ～）①（～に）貢献する　②（～の）一因となる　[他] ③（A to B）（A）を（Bに）寄付する，提供する", en: "contribute a great deal of money to the church", ja: "教会に多額の寄付をする（多額の金を寄付する）" },
+    { id: "504", answer: "abolish", explanation: "[他] ～を廃止する", en: "abolish capital punishment", ja: "死刑制度を廃止する" },
+    { id: "505", answer: "impose", explanation: "[他] （A on B）（A）を（Bに）課す，押しつける", en: "The government should impose a total ban on cigarette advertising.", ja: "政府はたばこの広告を全面禁止すべきだ（禁止を課すべきだ）．" },
+    { id: "506-1", answer: "access", explanation: "[名] ①利用する権利　②（場所への）接近方法", en: "have free access to a computer", ja: "コンピュータを自由に利用できる（利用する権利を持つ）" },
+    { id: "506-2", answer: "access", explanation: "[名] ①利用する権利　②（場所への）接近方法", en: "access to the restrooms", ja: "トイレへの行き方" },
+    { id: "507-1", answer: "duty", explanation: "[名] ①義務　②関税", en: "fulfill my duties", ja: "義務を果たす" },
+    { id: "507-2", answer: "duty", explanation: "[名] ①義務　②関税", en: "a 6 percent duty on imports", ja: "輸入品に対する6％の関税" },
+    { id: "508-1", answer: "responsible", explanation: "[形] ①（人が主語）責任がある　②（物が主語）原因となっている", en: "I am responsible for what happens at school.", ja: "私には学校で起きることに対して責任がある．" },
+    { id: "508-2", answer: "responsible", explanation: "[形] ①（人が主語）責任がある　②（物が主語）原因となっている", en: "The typhoon was responsible for over 100 deaths.", ja: "その台風のため100人以上の人が犠牲になった（その台風は100人以上の人の死の原因となった）．" },
+    { id: "509-1", answer: "policy", explanation: "[名] ①政策　②方針　③保険契約，約款", en: "China’s one-child policy", ja: "中国の一人っ子政策" },
+    { id: "509-2", answer: "policy", explanation: "[名] ①政策　②方針　③保険契約，約款", en: "It is my policy not to say bad things about others.", ja: "他人の悪口を言わないというのが私のポリシー（方針）だ．" },
+    { id: "509-3", answer: "policy", explanation: "[名] ①政策　②方針　③保険契約，約款", en: "renew an insurance policy", ja: "保険契約を更新する" },
+    { id: "510", answer: "elect", explanation: "[他] ～を（選挙で）選ぶ", en: "I was elected a class representative.", ja: "私はクラス委員に選ばれた．" },
+    { id: "511-1", answer: "industry", explanation: "[名] ①工業　②（the ～ industry）産業，業界　③勤勉", en: "commerce and industry", ja: "商工業" },
+    { id: "511-2", answer: "industry", explanation: "[名] ①工業　②（the ～ industry）産業，業界　③勤勉", en: "the fashion industry", ja: "ファッション業界" },
+    { id: "511-3", answer: "industry", explanation: "[名] ①工業　②（the ～ industry）産業，業界　③勤勉", en: "Industry is the mother of success.", ja: "勤勉は成功の母だ．" },
+    { id: "512", answer: "income", explanation: "[名] 収入", en: "my monthly income", ja: "私の月収" },
+    { id: "513", answer: "profit", explanation: "[名] 利益，利潤", en: "The restaurant’s daily profit is about $1,000.", ja: "そのレストランの1日の利益はおよそ1,000ドルだ．" },
+    { id: "514", answer: "tax", explanation: "[名] 税金（〈米〉→〈可算〉　〈英〉→〈不可算〉）", en: "pay taxes on my income", ja: "収入に課された税金を払う" },
+    { id: "515-1", answer: "expense", explanation: "[名] ①費用，経費　②（at the － of ～）（～を）犠牲（にして）", en: "This money will cover all your expenses.", ja: "このお金があなたのすべての費用をまかなうだろう．" },
+    { id: "515-2", answer: "expense", explanation: "[名] ①費用，経費　②（at the － of ～）（～を）犠牲（にして）", en: "at the expense of my health", ja: "健康を犠牲にして" },
+    { id: "516", answer: "debt", explanation: "[名] 借金", en: "pay back a debt of 100 dollars", ja: "100ドルの借金を返す" },
+    { id: "517-1", answer: "deposit", explanation: "[名] ①預金　②頭金，保証金　③埋蔵物，堆積物　[他] ④～を預ける", en: "have a large deposit in the bank", ja: "銀行に多額の預金がある" },
+    { id: "517-2", answer: "deposit", explanation: "[名] ①預金　②頭金，保証金　③埋蔵物，堆積物　[他] ④～を預ける", en: "pay a deposit on a house", ja: "家の手付金を払う" },
+    { id: "517-3", answer: "deposit", explanation: "[名] ①預金　②頭金，保証金　③埋蔵物，堆積物　[他] ④～を預ける", en: "a rich deposit of oil", ja: "豊富な石油の埋蔵" },
+    { id: "517-4", answer: "deposit", explanation: "[名] ①預金　②頭金，保証金　③埋蔵物，堆積物　[他] ④～を預ける", en: "deposit ¥10,000 in a bank", ja: "銀行口座に10,000円を預金する" },
+    { id: "518-1", answer: "charge", explanation: "[名] ①料金　②（主にin －）責任，管理　③（against ～）（～に対する）非難，告訴　[他] ④～を請求する　⑤～を告訴する　⑥～を充電する", en: "Goods are delivered free of charge.", ja: "商品は無料でお届けします．" },
+    { id: "518-2", answer: "charge", explanation: "[名] ①料金　②（主にin －）責任，管理　③（against ～）（～に対する）非難，告訴　[他] ④～を請求する　⑤～を告訴する　⑥～を充電する", en: "Who is in charge of this shop?", ja: "この店の責任者はどなたですか．" },
+    { id: "518-3", answer: "charge", explanation: "[名] ①料金　②（主にin －）責任，管理　③（against ～）（～に対する）非難，告訴　[他] ④～を請求する　⑤～を告訴する　⑥～を充電する", en: "a charge against the company", ja: "会社に対する告発" },
+    { id: "518-4", answer: "charge", explanation: "[名] ①料金　②（主にin －）責任，管理　③（against ～）（～に対する）非難，告訴　[他] ④～を請求する　⑤～を告訴する　⑥～を充電する", en: "charge 5,000 yen for a half-hour class", ja: "30分の授業で5,000円を請求する" },
+    { id: "518-5", answer: "charge", explanation: "[名] ①料金　②（主にin －）責任，管理　③（against ～）（～に対する）非難，告訴　[他] ④～を請求する　⑤～を告訴する　⑥～を充電する", en: "be charged with accepting bribes", ja: "賄賂を受け取ったとして告発される" },
+    { id: "518-6", answer: "charge", explanation: "[名] ①料金　②（主にin －）責任，管理　③（against ～）（～に対する）非難，告訴　[他] ④～を請求する　⑤～を告訴する　⑥～を充電する", en: "charge my smartphone", ja: "スマートフォンを充電する" },
+    { id: "519-1", answer: "wage", explanation: "[名] ①賃金〈可算〉　[他] ②（闘争，運動など）を行う", en: "get a daily wage of $100", ja: "日給100ドルを得る" },
+    { id: "519-2", answer: "wage", explanation: "[名] ①賃金〈可算〉　[他] ②（闘争，運動など）を行う", en: "wage a campaign", ja: "キャンペーンを行う" },
+    { id: "520", answer: "recession", explanation: "[名] 不況，不景気", en: "close down my inn because of the continuing recession", ja: "長引く不況のため旅館を閉める" },
+    { id: "521", answer: "consume", explanation: "[他] ～を消費する", en: "consume a large amount of electricity", ja: "大量の電気を消費する" },
+    { id: "522-1", answer: "waste", explanation: "[他] ①～を浪費する　[名] ②浪費，無駄　③廃棄物〈不可算〉", en: "Don’t waste so much time on video games.", ja: "テレビゲームにそんなに多くの時間を浪費してはいけません．" },
+    { id: "522-2", answer: "waste", explanation: "[他] ①～を浪費する　[名] ②浪費，無駄　③廃棄物〈不可算〉", en: "It is a waste of time and money.", ja: "そんなの時間と金の無駄だ．" },
+    { id: "522-3", answer: "waste", explanation: "[他] ①～を浪費する　[名] ②浪費，無駄　③廃棄物〈不可算〉", en: "industrial waste", ja: "産業廃棄物" },
+    { id: "523-1", answer: "invest", explanation: "[他] ①（A in B）（A）を（Bに）投資する　②（A with B）（A）に（Bを）与える", en: "invest one million yen in stocks", ja: "株に100万円を投資する" },
+    { id: "523-2", answer: "invest", explanation: "[他] ①（A in B）（A）を（Bに）投資する　②（A with B）（A）に（Bを）与える", en: "He is invested with absolute authority.", ja: "彼には絶対的権限が与えられている．" },
+    { id: "524-1", answer: "import", explanation: "[他] ①～を輸入する　[名] ②輸入，輸入品", en: "import beef from the U.S.", ja: "アメリカから牛肉を輸入する" },
+    { id: "524-2", answer: "import", explanation: "[他] ①～を輸入する　[名] ②輸入，輸入品", en: "Imports slightly exceeded exports.", ja: "輸入が輸出を少し上回った．" },
+    { id: "525", answer: "financial", explanation: "[形] 財政的な，金銭的な", en: "receive financial support", ja: "経済的支援を受ける" },
+    { id: "526-1", answer: "hire", explanation: "[他] ①～を（一時的に）雇う　②（金を払って短期間）～を借りる", en: "hire movers to do all the work", ja: "引っ越し業者を雇って全部任せる" },
+    { id: "526-2", answer: "hire", explanation: "[他] ①～を（一時的に）雇う　②（金を払って短期間）～を借りる", en: "hire a car", ja: "車を借りる" },
+    { id: "527-1", answer: "employ", explanation: "[他] ①（人）を雇う　②（物，事）を用いる", en: "employ minors", ja: "未成年者を雇う" },
+    { id: "527-2", answer: "employ", explanation: "[他] ①（人）を雇う　②（物，事）を用いる", en: "employ new technology", ja: "新しい技術を用いる" },
+    { id: "528-1", answer: "resign", explanation: "[自] ①（as ～）（～を）辞職する　[他] ②（地位など）を辞める", en: "resign as coach", ja: "コーチを辞める" },
+    { id: "528-2", answer: "resign", explanation: "[自] ①（as ～）（～を）辞職する　[他] ②（地位など）を辞める", en: "resign my post", ja: "ポストを辞する" },
+    { id: "529-1", answer: "qualify", explanation: "[自] ①（for ～）（～の）資格がある　②（as ～）（～としての）資格を得る　[他] ③～に資格を与える", en: "qualify for bank loans", ja: "銀行ローンを受ける資格がある" },
+    { id: "529-2", answer: "qualify", explanation: "[自] ①（for ～）（～の）資格がある　②（as ～）（～としての）資格を得る　[他] ③～に資格を与える", en: "qualify as a teacher", ja: "教師としての資格を得る" },
+    { id: "529-3", answer: "qualify", explanation: "[自] ①（for ～）（～の）資格がある　②（as ～）（～としての）資格を得る　[他] ③～に資格を与える", en: "a World Cup qualifying game", ja: "ワールドカップの予選（本選への資格を与える試合）" },
+    { id: "530-1", answer: "assign", explanation: "[他] ①～を割り当てる　②～を配属する", en: "assign that important job to him", ja: "彼にその大切な仕事を割り当てる" },
+    { id: "530-2", answer: "assign", explanation: "[他] ①～を割り当てる　②～を配属する", en: "be assigned to the head office", ja: "本店に配属される" },
+    { id: "531-1", answer: "occupation", explanation: "[名] ①職業〈可算〉　②占有，占領〈不可算〉", en: "my name, address, and occupation", ja: "氏名，住所，職業" },
+    { id: "531-2", answer: "occupation", explanation: "[名] ①職業〈可算〉　②占有，占領〈不可算〉", en: "be under occupation", ja: "占領下にある" },
+    { id: "532-1", answer: "career", explanation: "[名] ①職業　②経歴", en: "start a career as a doctor", ja: "医者として働き始める（職業を始める）" },
+    { id: "532-2", answer: "career", explanation: "[名] ①職業　②経歴", en: "during her long career as a teacher", ja: "彼女の長い教員生活（教員としての長い経歴）の間に" },
+    { id: "533-1", answer: "profession", explanation: "[名] ①（専門的な）職業　②（the －）同業者集団", en: "enter the legal profession", ja: "法律関係の仕事に就く" },
+    { id: "533-2", answer: "profession", explanation: "[名] ①（専門的な）職業　②（the －）同業者集団", en: "the medical profession", ja: "医療従事者" },
+    { id: "534-1", answer: "unemployment", explanation: "[名] ①失業　②失業率（＝－ rate），失業者数 （① ② ともに〈不可算〉）", en: "an unemployment problem", ja: "失業問題" },
+    { id: "534-2", answer: "unemployment", explanation: "[名] ①失業　②失業率（＝－ rate），失業者数 （① ② ともに〈不可算〉）", en: "Unemployment has fallen.", ja: "失業率が下がった．" },
+    { id: "535-1", answer: "document", explanation: "[名] ①書類，資料　[他] ②～を記録する", en: "look over the documents", ja: "資料に目を通す" },
+    { id: "535-2", answer: "document", explanation: "[名] ①書類，資料　[他] ②～を記録する", en: "document how this event happened", ja: "この出来事がどのように起きたかを記録する" },
+    { id: "536-1", answer: "department", explanation: "[名] ①（組織の）部門，課　②（大学の）学科　③（米国などの）省", en: "the toy department", ja: "おもちゃ売り場" },
+    { id: "536-2", answer: "department", explanation: "[名] ①（組織の）部門，課　②（大学の）学科　③（米国などの）省", en: "the English department", ja: "英語学科" },
+    { id: "536-3", answer: "department", explanation: "[名] ①（組織の）部門，課　②（大学の）学科　③（米国などの）省", en: "the U.S. State Department", ja: "米国国務省" },
+    { id: "537-1", answer: "branch", explanation: "[名] ①支店，支局　②（学問の）部門　③枝", en: "the branch of this bank", ja: "この銀行の支店" },
+    { id: "537-2", answer: "branch", explanation: "[名] ①支店，支局　②（学問の）部門　③枝", en: "a branch of biology", ja: "生物学の一部門" },
+    { id: "537-3", answer: "branch", explanation: "[名] ①支店，支局　②（学問の）部門　③枝", en: "Don’t break branches off the trees.", ja: "木の枝を折ってはいけません．" }
 ];
 
 // --- App State ---
@@ -196,30 +217,28 @@ const quizContent = document.getElementById('quiz-content');
 * @returns {string|null} - The found word form or null if not found.
 */
 function findAnswerFormInSentence(enSentence, answer) {
-    const originalWords = enSentence.split(' ');
-    const words = enSentence.toLowerCase().split(/[\s,.]+/);
+    // This function tries to find different forms of the answer in the sentence (e.g., plural, past tense)
+    // It's a bit complex to be perfect, but it handles common cases.
+    const originalWords = enSentence.split(/[\s,.]+/).filter(Boolean);
+    const words = enSentence.toLowerCase().split(/[\s,.]+/).filter(Boolean);
     const answerLower = answer.toLowerCase();
 
-    for (let i = 0; i < words.length; i++) {
-        const cleanWord = words[i].replace(/[.,!?]$/, '');
-        const originalWord = originalWords.find(ow => ow.toLowerCase().includes(cleanWord));
-        
-        if (!originalWord) continue;
-
-        if (
-            cleanWord === answerLower ||
-            cleanWord === answerLower + 's' ||
-            cleanWord === answerLower + 'es' ||
-            (answerLower.endsWith('y') && !['a','e','i','o','u'].includes(answerLower.slice(-2,-1)) && cleanWord === answerLower.slice(0, -1) + 'ies') ||
-            (answerLower.endsWith('e') && cleanWord === answerLower.slice(0, -1) + 'ing') ||
-            (!answerLower.endsWith('e') && cleanWord === answerLower + 'ing') ||
-            cleanWord === answerLower + 'ed' ||
-            cleanWord.startsWith(answerLower)
-        ) {
-            return originalWord.replace(/[.,!?]$/, '');
+    // Direct match check first
+    for(let i = 0; i < words.length; i++) {
+        if (words[i].replace(/[.,!?]$/, '') === answerLower) {
+            return originalWords[i].replace(/[.,!?]$/, '');
         }
     }
-    return answer; // Fallback to base form if not found
+    
+    // Check for variations
+     for(let i = 0; i < words.length; i++) {
+        const cleanWord = words[i].replace(/[.,!?]$/, '');
+        if (cleanWord.startsWith(answerLower)) {
+             return originalWords[i].replace(/[.,!?]$/, '');
+        }
+    }
+
+    return answer; // Fallback to the base answer if no form is found
 }
 
 
@@ -231,16 +250,22 @@ function findAnswerFormInSentence(enSentence, answer) {
 */
 function formatEnglishSentence(enSentence, answer) {
     const blank = '__________';
+    // Use a regular expression to find the word, ignoring case, and ensuring it's a whole word.
     const actualWord = findAnswerFormInSentence(enSentence, answer);
 
-    if (actualWord && enSentence.includes(actualWord)) {
-        const answerHtml = `<span class="answer-span">${actualWord}</span>`;
-        const underlineHtml = `<span class="underline-span">${blank}</span>`;
-        // Replace only the first occurrence to avoid issues with repeated words.
-        return enSentence.replace(actualWord, `${answerHtml}${underlineHtml}`);
+    if (actualWord && enSentence.toLowerCase().includes(actualWord.toLowerCase())) {
+        const regex = new RegExp(`\\b${actualWord}\\b`, 'i');
+        const match = enSentence.match(regex);
+        if(match){
+            const foundWord = match[0];
+            const answerHtml = `<span class="answer-span">${foundWord}</span>`;
+            const underlineHtml = `<span class="underline-span">${blank}</span>`;
+            return enSentence.replace(regex, `${answerHtml}${underlineHtml}`);
+        }
     }
-    // If word is not found, just return sentence (should not happen with good data)
-    return enSentence.replace(answer, `<span class="answer-span">${answer}</span><span class="underline-span">${blank}</span>`);
+    
+    // Fallback if the word isn't found (should not happen with correct data)
+    return enSentence;
 }
 
 
@@ -269,7 +294,7 @@ function renderChapter() {
         <p class="mb-2 text-gray-700">${item.ja}</p>
         <p class="font-english">${englishSentenceHtml}</p>
         <div class="explanation mt-4 p-4 bg-yellow-100 border-l-4 border-yellow-400 text-gray-700 rounded-r-lg">
-        ${item.explanation}
+        ${item.explanation.replace(/\n/g, '<br>')}
         </div>
         </div>
         </div>
@@ -371,9 +396,11 @@ function handleRecording() {
         };
         
         recognition.onend = () => {
-            if (!messageModal.classList.contains('hidden') && messageContent.innerHTML.includes('マイクに')) {
+            // Close the "listening" modal only if it's still showing, to avoid hiding a result modal.
+             const listeningModal = document.querySelector('#message-content .animate-pulse');
+             if (listeningModal) {
                  messageModal.classList.add('hidden');
-            }
+             }
         };
 
         recognition.start();
@@ -404,20 +431,24 @@ function evaluatePronunciation(transcript) {
     
     let score;
     if (similarity >= 0.9) {
-        score = 95 + Math.floor(Math.random() * 5); 
+        score = 95 + Math.floor(Math.random() * 6); 
     } else if (similarity >= 0.7) {
-        score = 90 + Math.floor(Math.random() * 5);
+        score = 85 + Math.floor(Math.random() * 10);
     } else if (similarity >= 0.5) {
-        score = 85 + Math.floor(Math.random() * 5);
+        score = 75 + Math.floor(Math.random() * 10);
     } else if (similarity >= 0.3) {
-        score = 80 + Math.floor(Math.random() * 5);
+        score = 65 + Math.floor(Math.random() * 10);
     } else {
-        score = 70 + Math.floor(Math.random() * 10);
+        score = 50 + Math.floor(Math.random() * 15);
     }
     
-    if (score >= 99 && cleanOrig.join(' ') !== cleanTrans.join(' ')) {
-        score = 98;
+    if (score > 99) {
+      score = 99;
     }
+    if (cleanOrig.join(' ') === cleanTrans.join(' ')) {
+      score = 100;
+    }
+
 
     const messageHtml = `
     <h3 class="text-2xl font-bold mb-4">評価結果</h3>
@@ -440,6 +471,11 @@ function startQuiz() {
     }
 
     const uniqueAnswers = [...new Map(chapterData.map(item => [item.answer, item])).values()];
+    if (uniqueAnswers.length < 4) {
+        showMessage('<p>クイズを作成するには、選択肢として4種類以上の単語が必要です。</p>', 3000);
+        return;
+    }
+
     const shuffled = uniqueAnswers.sort(() => 0.5 - Math.random());
     const questions = shuffled.slice(0, 10);
 
@@ -459,10 +495,14 @@ function startQuiz() {
         
         let questionSentence = question.en;
         if (correctOptionText) {
-            questionSentence = question.en.replace(correctOptionText, '(______)');
+             const regex = new RegExp(`\\b${correctOptionText}\\b`, 'i');
+             if(question.en.match(regex)){
+                questionSentence = question.en.replace(regex, '(______)');
+             }
         }
 
-        const incorrectAnswers = [...new Set(chapterData.map(item => item.answer))]
+        const allOtherAnswers = [...new Set(chapterData.map(item => item.answer))];
+        const incorrectAnswers = allOtherAnswers
             .filter(answer => answer !== baseAnswer)
             .sort(() => 0.5 - Math.random())
             .slice(0, 3);
@@ -470,7 +510,7 @@ function startQuiz() {
         const options = [correctOptionText, ...incorrectAnswers].sort(() => 0.5 - Math.random());
 
         quizContent.innerHTML = `
-        <h3 class="text-2xl font-bold mb-2">問題 ${currentQuestionIndex + 1}/10</h3>
+        <h3 class="text-2xl font-bold mb-2">問題 ${currentQuestionIndex + 1}/${questions.length}</h3>
         <p class="text-lg mb-4">${question.ja}</p>
         <p class="font-english text-xl mb-6 p-4 bg-gray-100 rounded-lg">${questionSentence}</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -482,13 +522,16 @@ function startQuiz() {
             button.addEventListener('click', () => {
                 const selectedOptionText = button.dataset.optionText;
                 
-                if (selectedOptionText === correctOptionText) {
+                if (selectedOptionText.toLowerCase() === correctOptionText.toLowerCase()) {
                     score++;
+                    button.classList.remove('bg-blue-100', 'hover:bg-blue-200');
                     button.classList.add('bg-green-400', 'text-white');
                 } else {
+                    button.classList.remove('bg-blue-100', 'hover:bg-blue-200');
                     button.classList.add('bg-red-400', 'text-white');
-                    const correctButton = document.querySelector(`[data-option-text="${CSS.escape(correctOptionText)}"]`);
+                    const correctButton = Array.from(document.querySelectorAll('.quiz-option')).find(btn => btn.dataset.optionText.toLowerCase() === correctOptionText.toLowerCase());
                     if (correctButton) {
+                        correctButton.classList.remove('bg-blue-100', 'hover:bg-blue-200');
                         correctButton.classList.add('bg-green-400', 'text-white');
                     }
                 }
@@ -506,7 +549,7 @@ function startQuiz() {
         quizContent.innerHTML = `
         <h3 class="text-3xl font-bold mb-4 text-center">テスト終了！</h3>
         <p class="text-center text-xl mb-6">あなたのスコアは...</p>
-        <p class="text-center text-7xl font-bold text-purple-600">${score * 10}<span class="text-3xl">点</span></p>
+        <p class="text-center text-7xl font-bold text-purple-600">${Math.round((score / questions.length) * 100)}<span class="text-3xl">点</span></p>
         <p class="text-center text-xl mt-2">(${questions.length}問中 ${score}問正解)</p>
         `;
     }
@@ -550,4 +593,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
